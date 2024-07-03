@@ -3,7 +3,6 @@
   --_max-column-count: 4;
   --_column-gap: 2rem;
 
-  /*creates a grid with 2 columns max*/
   display: grid;
   grid-template-columns: repeat(
     auto-fit,

@@ -38,9 +38,13 @@ router.post("/", [
   body('precio').isNumeric().withMessage("'precio' must be either an integer or a float number"),
   body('tags').custom(value => {
     let result = true;
-    value.forEach(val => {
-      if (!Anuncio.getAvailableTags().includes(val)) result = false;
-    })
+    if (Array.isArray(value)) {
+      value.forEach(val => {
+        if (!Anuncio.getAvailableTags().includes(val)) result = false;
+      })
+    } else {
+      if (!Anuncio.getAvailableTags().includes(value)) result = false;
+    }
     return result;
   }).withMessage(`'tag' must be one or more of the following: ${Anuncio.getAvailableTags()}`)
 ], asyncHandler(async (req, res) => {
@@ -49,7 +53,7 @@ router.post("/", [
 
   const newAnuncio = await Anuncio.saveNewAnuncio(req.body);
 
-  res.json({result: newAnuncio});
+  res.json({newAnuncio: newAnuncio});
 }));
 
 module.exports = router;

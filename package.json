@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "cross-env DEBUG=tarea-fundamentos-backend:* nodemon ./bin/www"
+    "dev": "cross-env DEBUG=tarea-fundamentos-backend:* nodemon ./bin/www",
+    "init-db": "node ./init_db"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
