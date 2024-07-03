@@ -21,4 +21,9 @@ router.get("/", asyncHandler(async function (req, res) {
   })
 );
 
+router.get("/tags", (req, res) => {
+  const tags = Anuncio.getAvailableTags();
+  res.json({availableTags: tags});
+});
+
 module.exports = router;

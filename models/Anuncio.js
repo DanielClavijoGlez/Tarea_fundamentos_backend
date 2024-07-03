@@ -38,6 +38,10 @@ anuncioSchema.statics.getAnunciosForBrowser = async function(filters, skip, limi
   return anuncios;
 };
 
+anuncioSchema.statics.getAvailableTags = () => {
+  return anuncioSchema.path('tags').caster.enumValues;
+};
+
 const Anuncio = mongoose.model("Anuncio", anuncioSchema);
 
 module.exports = Anuncio;
