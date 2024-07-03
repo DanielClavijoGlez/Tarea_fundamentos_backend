@@ -5,6 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var helmet = require("helmet");
 
+require('./lib/connectMongoose');
+require('./models/Anuncio');
+
 var app = express();
 
 // view engine setup
@@ -22,6 +25,7 @@ app.use(helmet());
 app.use('/', require("./routes/index"));
 
 // API v1 routes
+app.use('/apiv1/anuncios', require("./routes/apiv1/anuncios"));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -30,12 +34,18 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  
+  if (req.originalUrl.includes('/api')) {
+    res.json({error: err.message});
+    return;
+  }
+
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
   res.render('error');
 });
 

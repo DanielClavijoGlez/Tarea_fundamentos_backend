@@ -3,7 +3,7 @@
 const mongoose = require("mongoose");
 
 const anuncioSchema = mongoose.Schema({
-  nombre: { type: String, index: true },
+  nombre: { type: String, index: true},
   venta: { type: Boolean, index: true },
   precio: { type: Number, min: 0, index: true },
   foto: String,
@@ -13,6 +13,16 @@ const anuncioSchema = mongoose.Schema({
     index: true,
   },
 });
+
+anuncioSchema.statics.getAnunciosForApi = async function(filters, skip, limit, sort) {
+  const query = Anuncio.find(filters, {__v: 0, foto: 0});
+  query.skip(skip);
+  query.limit(limit);
+  query.sort(sort);
+  const anuncios = await query.exec();
+
+  return anuncios;
+};
 
 const Anuncio = mongoose.model("Anuncio", anuncioSchema);
 

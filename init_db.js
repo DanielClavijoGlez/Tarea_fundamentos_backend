@@ -2,7 +2,7 @@
 
 const connection = require("./lib/connectMongoose");
 const readLine = require("node:readline");
-const Anuncios = require("./models/Anuncio");
+const Anuncio = require("./models/Anuncio");
 
 const anunciosJson = require("./anuncios.json").anuncios;
 
@@ -24,10 +24,10 @@ async function main() {
 }
 
 async function initAnuncios() {
-  const deleted = await Anuncios.deleteMany();
+  const deleted = await Anuncio.deleteMany();
   console.log(`Deleted ${deleted.deletedCount} 'anuncios'`);
 
-  const inserted = await Anuncios.insertMany(anunciosJson);
+  const inserted = await Anuncio.insertMany(anunciosJson);
   console.log(`Created ${inserted.length} 'anuncios'`);
 }
 
