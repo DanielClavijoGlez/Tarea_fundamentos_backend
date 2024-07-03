@@ -34,6 +34,12 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+  if (err.array) {
+    const errInfo = err.array({ })[0];
+    err.message = `Not valid - ${errInfo.type} ${errInfo.path} in ${errInfo.location} ${errInfo.msg}`;
+    err.status = 422;
+  }
+
   res.status(err.status || 500);
   
   if (req.originalUrl.includes('/api')) {

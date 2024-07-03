@@ -42,6 +42,13 @@ anuncioSchema.statics.getAvailableTags = () => {
   return anuncioSchema.path('tags').caster.enumValues;
 };
 
+anuncioSchema.statics.saveNewAnuncio = async (anuncioData) => {
+  const anuncio = new Anuncio(anuncioData);
+  const newAnuncio = await anuncio.save();
+
+  return newAnuncio;
+}
+
 const Anuncio = mongoose.model("Anuncio", anuncioSchema);
 
 module.exports = Anuncio;
