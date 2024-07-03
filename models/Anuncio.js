@@ -24,6 +24,20 @@ anuncioSchema.statics.getAnunciosForApi = async function(filters, skip, limit, s
   return anuncios;
 };
 
+anuncioSchema.statics.getAnunciosForBrowser = async function(filters, skip, limit, sort) {
+  const query = Anuncio.find(filters, {__v: 0});
+  query.skip(skip);
+  query.limit(limit);
+  query.sort(sort);
+  const anuncios = await query.exec();
+
+  anuncios.forEach((anuncio) => {
+    anuncio.foto = '/images/anuncios/' + anuncio.foto;
+  });
+
+  return anuncios;
+};
+
 const Anuncio = mongoose.model("Anuncio", anuncioSchema);
 
 module.exports = Anuncio;
